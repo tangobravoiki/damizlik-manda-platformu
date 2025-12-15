@@ -1,33 +1,33 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const menuItems = [
-    { label: "Ana Sayfa", href: "#" },
+    { label: "Ana Sayfa", href: "/" },
     {
       label: "Kurumsal",
-      href: "#kurumsal",
+      href: "/kurumsal",
       submenu: [
-        { label: "Hakkımızda", href: "#hakkimizda" },
-        { label: "Yönetim Kurulu", href: "#yonetim" },
-        { label: "Tarihçe", href: "#tarihce" },
-        { label: "Organizasyon", href: "#organizasyon" },
+        { label: "Hakkımızda", href: "/kurumsal/hakkimizda" },
+        { label: "Yönetim Kurulu", href: "/kurumsal/yonetim-kurulu" },
+        { label: "Tarihçe", href: "/kurumsal/tarihce" },
+        { label: "Organizasyon", href: "/kurumsal/organizasyon" },
       ],
     },
-    { label: "Projeler", href: "#projeler" },
-    { label: "İstatistikler", href: "#istatistikler" },
-    { label: "Mevzuat", href: "#mevzuat" },
-    { label: "Haberler", href: "#haberler" },
-    { label: "İletişim", href: "#iletisim" },
+    { label: "Projeler", href: "/projeler" },
+    { label: "İstatistikler", href: "/istatistikler" },
+    { label: "Mevzuat", href: "/mevzuat" },
+    { label: "Haberler", href: "/haberler" },
+    { label: "İletişim", href: "/iletisim" },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Top Bar */}
       <div className="bg-primary">
         <div className="container mx-auto px-4 py-2">
           <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-primary-foreground/90">
@@ -49,12 +49,10 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Navigation */}
       <nav className="bg-card/95 backdrop-blur-md shadow-soft">
         <div className="container mx-auto px-4">
           <div className="flex h-20 items-center justify-between">
-            {/* Logo */}
-            <a href="#" className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary">
                 <span className="text-2xl font-display font-bold text-primary-foreground">MB</span>
               </div>
@@ -64,9 +62,8 @@ const Header = () => {
                 </h1>
                 <p className="text-sm text-muted-foreground">Yetiştiricileri Merkez Birliği</p>
               </div>
-            </a>
+            </Link>
 
-            {/* Desktop Menu */}
             <div className="hidden lg:flex items-center gap-1">
               {menuItems.map((item) => (
                 <div
@@ -75,15 +72,11 @@ const Header = () => {
                   onMouseEnter={() => item.submenu && setActiveDropdown(item.label)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <a
-                    href={item.href}
-                    className="nav-link flex items-center gap-1"
-                  >
+                  <Link to={item.href} className="nav-link flex items-center gap-1">
                     {item.label}
                     {item.submenu && <ChevronDown className="h-4 w-4" />}
-                  </a>
+                  </Link>
 
-                  {/* Dropdown */}
                   <AnimatePresence>
                     {item.submenu && activeDropdown === item.label && (
                       <motion.div
@@ -95,13 +88,13 @@ const Header = () => {
                       >
                         <div className="min-w-48 rounded-lg bg-card shadow-elevated p-2">
                           {item.submenu.map((subItem) => (
-                            <a
+                            <Link
                               key={subItem.label}
-                              href={subItem.href}
+                              to={subItem.href}
                               className="block rounded-md px-4 py-2 text-sm text-foreground/80 hover:bg-muted hover:text-primary transition-colors"
                             >
                               {subItem.label}
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </motion.div>
@@ -111,7 +104,6 @@ const Header = () => {
               ))}
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
@@ -122,7 +114,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
@@ -134,24 +125,24 @@ const Header = () => {
               <div className="container mx-auto px-4 py-4">
                 {menuItems.map((item) => (
                   <div key={item.label}>
-                    <a
-                      href={item.href}
+                    <Link
+                      to={item.href}
                       className="block py-3 text-foreground/80 hover:text-primary transition-colors font-medium"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                     {item.submenu && (
                       <div className="pl-4 border-l-2 border-muted ml-2">
                         {item.submenu.map((subItem) => (
-                          <a
+                          <Link
                             key={subItem.label}
-                            href={subItem.href}
+                            to={subItem.href}
                             className="block py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {subItem.label}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     )}
